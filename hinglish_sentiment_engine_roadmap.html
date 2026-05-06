@@ -1,0 +1,181 @@
+
+<style>
+  h2.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+  .phase{border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);margin-bottom:1.5rem;overflow:hidden}
+  .phase-header{display:flex;align-items:center;gap:12px;padding:14px 20px;cursor:pointer;user-select:none}
+  .phase-header:hover{background:var(--color-background-secondary)}
+  .phase-num{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500;flex-shrink:0}
+  .phase-title{font-size:15px;font-weight:500;color:var(--color-text-primary);flex:1}
+  .phase-badge{font-size:11px;padding:3px 10px;border-radius:20px;font-weight:500}
+  .phase-chevron{font-size:18px;color:var(--color-text-tertiary);transition:transform .2s}
+  .phase-body{display:none;padding:0 20px 16px;border-top:0.5px solid var(--color-border-tertiary)}
+  .phase-body.open{display:block}
+  .phase-chevron.open{transform:rotate(180deg)}
+  .task-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin-top:14px}
+  .task-card{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:12px 14px;font-size:13px}
+  .task-card .label{font-weight:500;color:var(--color-text-primary);margin-bottom:4px;font-size:13px}
+  .task-card .desc{color:var(--color-text-secondary);line-height:1.5;font-size:12px}
+  .resource-list{margin-top:12px;display:flex;flex-direction:column;gap:8px}
+  .resource-item{display:flex;align-items:flex-start;gap:10px;font-size:13px;color:var(--color-text-secondary)}
+  .resource-item .ri{font-size:15px;margin-top:1px;flex-shrink:0}
+  .resource-item a{color:var(--color-text-info);text-decoration:none}
+  .resource-item a:hover{text-decoration:underline}
+  .gap-banner{background:var(--color-background-warning);border:0.5px solid var(--color-border-warning);border-radius:var(--border-radius-md);padding:12px 16px;font-size:13px;color:var(--color-text-warning);margin-top:14px}
+  .stack-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+  .chip{font-size:11px;font-weight:500;padding:4px 10px;border-radius:20px;border:0.5px solid var(--color-border-secondary);color:var(--color-text-secondary)}
+  .stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}
+  .stat{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:12px;text-align:center}
+  .stat .val{font-size:20px;font-weight:500;color:var(--color-text-primary)}
+  .stat .key{font-size:11px;color:var(--color-text-secondary);margin-top:3px}
+  .p1 .phase-num{background:#EEEDFE;color:#534AB7}
+  .p2 .phase-num{background:#E1F5EE;color:#0F6E56}
+  .p3 .phase-num{background:#FAEEDA;color:#854F0B}
+  .p4 .phase-num{background:#E6F1FB;color:#185FA5}
+  .p5 .phase-num{background:#EAF3DE;color:#3B6D11}
+  .p1 .phase-badge{background:#EEEDFE;color:#534AB7}
+  .p2 .phase-badge{background:#E1F5EE;color:#0F6E56}
+  .p3 .phase-badge{background:#FAEEDA;color:#854F0B}
+  .p4 .phase-badge{background:#E6F1FB;color:#185FA5}
+  .p5 .phase-badge{background:#EAF3DE;color:#3B6D11}
+</style>
+<h2 class="sr-only">Hinglish Sentiment Engine — full research and build roadmap across 5 phases</h2>
+
+<div style="padding:1rem 0 0.5rem">
+  <p style="font-size:13px;color:var(--color-text-secondary);margin:0 0 1rem">Click any phase to expand. 5 phases · ~14–18 weeks to production-ready open-source tool.</p>
+
+  <div class="stat-row">
+    <div class="stat"><div class="val">~75%</div><div class="key">best SemEval-2020 F1 (Hinglish)</div></div>
+    <div class="stat"><div class="val">20K</div><div class="key">SemEval annotated tweets</div></div>
+    <div class="stat"><div class="val">52M+</div><div class="key">L3Cube corpus sentences</div></div>
+  </div>
+</div>
+
+<!-- Phase 1 -->
+<div class="phase p1">
+  <div class="phase-header" onclick="toggle(this)">
+    <div class="phase-num">1</div>
+    <div class="phase-title">Research & gap analysis</div>
+    <span class="phase-badge">Weeks 1–2</span>
+    <i class="ti ti-chevron-down phase-chevron" aria-hidden="true"></i>
+  </div>
+  <div class="phase-body">
+    <div class="gap-banner">
+      <strong>The real gap:</strong> Most Hinglish models handle Roman-script only. Almost none handle mixed Roman+Devanagari in the same sentence, sarcasm in code-mixed text, or aspect-level sentiment — your differentiation opportunities.
+    </div>
+    <div class="task-grid">
+      <div class="task-card"><div class="label">Key prior work to read</div><div class="desc">SemEval-2020 Task 9 paper (Patwa et al.) · L3Cube-HingBERT paper (arXiv 2204.08398) · COMI-LINGUA 2025 dataset paper</div></div>
+      <div class="task-card"><div class="label">Model landscape</div><div class="desc">mBERT, HingBERT, HingMBERT, HingRoBERTa all exist — but none are fine-tuned specifically for <em>sentiment</em> and publicly served as an API/demo</div></div>
+      <div class="task-card"><div class="label">Your differentiators</div><div class="desc">Sarcasm-aware labels · Aspect-level sentiment · Devanagari+Roman mixed input · Open Streamlit demo anyone can use</div></div>
+    </div>
+    <div class="resource-list">
+      <div class="resource-item"><i class="ti ti-file-text ri" aria-hidden="true"></i><span>SemEval-2020 Task 9 — <a href="https://arxiv.org/abs/2008.04277" target="_blank">arxiv.org/abs/2008.04277</a></span></div>
+      <div class="resource-item"><i class="ti ti-file-text ri" aria-hidden="true"></i><span>L3Cube HingBERT — <a href="https://arxiv.org/abs/2204.08398" target="_blank">arxiv.org/abs/2204.08398</a></span></div>
+      <div class="resource-item"><i class="ti ti-file-text ri" aria-hidden="true"></i><span>COMI-LINGUA 2025 — <a href="https://arxiv.org/abs/2503.21670" target="_blank">arxiv.org/abs/2503.21670</a></span></div>
+    </div>
+  </div>
+</div>
+
+<!-- Phase 2 -->
+<div class="phase p2">
+  <div class="phase-header" onclick="toggle(this)">
+    <div class="phase-num">2</div>
+    <div class="phase-title">Data collection & curation</div>
+    <span class="phase-badge">Weeks 2–5</span>
+    <i class="ti ti-chevron-down phase-chevron" aria-hidden="true"></i>
+  </div>
+  <div class="phase-body">
+    <div class="task-grid">
+      <div class="task-card"><div class="label">SemEval-2020 Hinglish</div><div class="desc">20K tweets, word-level language tags + sentence sentiment labels. Best starting dataset. Download from CodaLab.</div></div>
+      <div class="task-card"><div class="label">L3Cube HingCorpus</div><div class="desc">52M sentences from Twitter. Use HingBERT-LID to filter high code-mix sentences for your training augmentation.</div></div>
+      <div class="task-card"><div class="label">MUTANT dataset</div><div class="desc">67K articles with Hinglish multi-sentence context. Useful for longer-form social media post experiments.</div></div>
+      <div class="task-card"><div class="label">Collect fresh data</div><div class="desc">Scrape recent Instagram/YouTube comments using Playwright or snscrape. Aim for 5–10K new samples across IPL, Bollywood, politics domains.</div></div>
+    </div>
+    <div class="task-grid" style="margin-top:10px">
+      <div class="task-card"><div class="label">Annotation pipeline</div><div class="desc">Label with: Positive / Negative / Neutral + optional Sarcastic flag. Use Label Studio (free, self-hosted). 3 annotators per sample, majority vote.</div></div>
+      <div class="task-card"><div class="label">Preprocessing</div><div class="desc">Normalize @mentions, URLs, emoji → text description. Handle Roman↔Devanagari normalization using IndicNLP library.</div></div>
+    </div>
+    <div class="stack-row">
+      <span class="chip">Label Studio</span><span class="chip">IndicNLP</span><span class="chip">Playwright</span><span class="chip">pandas</span><span class="chip">HingBERT-LID</span>
+    </div>
+  </div>
+</div>
+
+<!-- Phase 3 -->
+<div class="phase p3">
+  <div class="phase-header" onclick="toggle(this)">
+    <div class="phase-num">3</div>
+    <div class="phase-title">Model fine-tuning</div>
+    <span class="phase-badge">Weeks 5–9</span>
+    <i class="ti ti-chevron-down phase-chevron" aria-hidden="true"></i>
+  </div>
+  <div class="phase-body">
+    <div class="task-grid">
+      <div class="task-card"><div class="label">Baseline: mBERT</div><div class="desc">Fine-tune google-bert/bert-base-multilingual-cased on SemEval data. Target: replicate ~75% F1 as baseline.</div></div>
+      <div class="task-card"><div class="label">Step up: HingMBERT</div><div class="desc">Use l3cube-pune/hing-mbert — already pre-trained on 52M Hinglish tokens. Fine-tune for sentiment on top. Likely your best model.</div></div>
+      <div class="task-card"><div class="label">Experiment: XLM-RoBERTa</div><div class="desc">facebook/xlm-roberta-base — strong multilingual baseline. Compare vs HingMBERT on your test split.</div></div>
+      <div class="task-card"><div class="label">Advanced: MuRIL</div><div class="desc">google/muril-base-cased — trained on Indian languages including transliterated text. Try for mixed-script inputs.</div></div>
+    </div>
+    <div class="task-grid" style="margin-top:10px">
+      <div class="task-card"><div class="label">Training config</div><div class="desc">LR: 2e-5 · Batch: 16 · Epochs: 3–5 · Warmup: 10% · Dropout: 0.1 · Use Trainer API from HuggingFace transformers</div></div>
+      <div class="task-card"><div class="label">Loss & metrics</div><div class="desc">CrossEntropyLoss with class weights (class imbalance is common). Report macro-F1, per-class F1, confusion matrix.</div></div>
+      <div class="task-card"><div class="label">Free GPU</div><div class="desc">Google Colab Pro (~₹1000/mo) or Kaggle (30 hr/week free T4). Use bfloat16 mixed precision to fit in 16GB VRAM.</div></div>
+    </div>
+    <div class="stack-row">
+      <span class="chip">transformers</span><span class="chip">datasets</span><span class="chip">evaluate</span><span class="chip">accelerate</span><span class="chip">wandb</span><span class="chip">scikit-learn</span>
+    </div>
+  </div>
+</div>
+
+<!-- Phase 4 -->
+<div class="phase p4">
+  <div class="phase-header" onclick="toggle(this)">
+    <div class="phase-num">4</div>
+    <div class="phase-title">Streamlit app & HuggingFace deployment</div>
+    <span class="phase-badge">Weeks 9–12</span>
+    <i class="ti ti-chevron-down phase-chevron" aria-hidden="true"></i>
+  </div>
+  <div class="phase-body">
+    <div class="task-grid">
+      <div class="task-card"><div class="label">Streamlit features</div><div class="desc">Single-text prediction · Batch CSV upload · Confidence bar chart · Attention visualisation (BertViz) · Language detection display</div></div>
+      <div class="task-card"><div class="label">HuggingFace Hub</div><div class="desc">Push your fine-tuned model to HF Hub under your username. Write a model card with training details, benchmarks, and example inputs.</div></div>
+      <div class="task-card"><div class="label">HF Spaces deploy</div><div class="desc">Deploy Streamlit app as a free HuggingFace Space. ZeroGPU Spaces give free A10G inference for popular OSS models.</div></div>
+      <div class="task-card"><div class="label">API endpoint</div><div class="desc">Use HF Inference API to expose a REST endpoint. Document it so others can call your model from their apps.</div></div>
+    </div>
+    <div class="resource-list">
+      <div class="resource-item"><i class="ti ti-brand-python ri" aria-hidden="true"></i><span>BertViz for attention — <a href="https://github.com/jessevig/bertviz" target="_blank">github.com/jessevig/bertviz</a></span></div>
+      <div class="resource-item"><i class="ti ti-rocket ri" aria-hidden="true"></i><span>HF Spaces ZeroGPU — <a href="https://huggingface.co/docs/hub/spaces-zerogpu" target="_blank">huggingface.co/docs/hub/spaces-zerogpu</a></span></div>
+    </div>
+  </div>
+</div>
+
+<!-- Phase 5 -->
+<div class="phase p5">
+  <div class="phase-header" onclick="toggle(this)">
+    <div class="phase-num">5</div>
+    <div class="phase-title">Open-source release & research paper</div>
+    <span class="phase-badge">Weeks 12–18</span>
+    <i class="ti ti-chevron-down phase-chevron" aria-hidden="true"></i>
+  </div>
+  <div class="phase-body">
+    <div class="task-grid">
+      <div class="task-card"><div class="label">GitHub repo structure</div><div class="desc">data/ · notebooks/ · src/ (model, preprocessing, inference) · app/ (Streamlit) · README with badges, demo GIF, citation block</div></div>
+      <div class="task-card"><div class="label">Dataset release</div><div class="desc">Release your fresh-collected + annotated data on HF Datasets under CC-BY-4.0. This alone gets citations.</div></div>
+      <div class="task-card"><div class="label">Paper venue targets</div><div class="desc">ACL ARR (rolling) · EMNLP 2026 · ICON (Indian NLP conference) · arXiv preprint first for visibility</div></div>
+      <div class="task-card"><div class="label">Community</div><div class="desc">Post on r/MachineLearning, IndiaAI community, Twitter/X ML India. Tag l3cube-pune, reach out to their team for collaboration.</div></div>
+    </div>
+    <div class="gap-banner" style="background:var(--color-background-success);border-color:var(--color-border-success);color:var(--color-text-success)">
+      <strong>Unique open-source value:</strong> A publicly demo-able, HF-hosted Hinglish sentiment model with a paper, annotated dataset, and REST API — this combination does not currently exist. You fill a real gap.
+    </div>
+  </div>
+</div>
+
+<script>
+function toggle(header){
+  const body=header.nextElementSibling;
+  const icon=header.querySelector('.phase-chevron');
+  const open=body.classList.contains('open');
+  body.classList.toggle('open',!open);
+  icon.classList.toggle('open',!open);
+}
+document.querySelector('.p1 .phase-header').click();
+</script>
