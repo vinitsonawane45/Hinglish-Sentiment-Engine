@@ -1,0 +1,79 @@
+# ================================================================
+# Hinglish Sentiment Engine — Configuration
+# ================================================================
+
+# --- Model ---
+model:
+  # Options:
+  #   "l3cube-pune/hing-mbert"       ← RECOMMENDED (pre-trained on 52M Hinglish tokens)
+  #   "l3cube-pune/hing-roberta"     ← strong alternative
+  #   "google-bert/bert-base-multilingual-cased"  ← vanilla baseline
+  #   "google/muril-base-cased"      ← best for Devanagari+Roman mixed
+  #   "facebook/xlm-roberta-base"    ← multilingual RoBERTa baseline
+  name: "l3cube-pune/hing-mbert"
+  num_labels: 3
+  label2id:
+    Positive: 0
+    Negative: 1
+    Neutral: 2
+  id2label:
+    0: "Positive"
+    1: "Negative"
+    2: "Neutral"
+  max_length: 128
+  dropout: 0.1
+
+# --- Training ---
+training:
+  output_dir: "./outputs/hinglish-sentiment"
+  num_train_epochs: 5
+  per_device_train_batch_size: 16
+  per_device_eval_batch_size: 32
+  learning_rate: 2.0e-5
+  weight_decay: 0.01
+  warmup_ratio: 0.1
+  lr_scheduler_type: "linear"
+  evaluation_strategy: "epoch"
+  save_strategy: "epoch"
+  load_best_model_at_end: true
+  metric_for_best_model: "f1_macro"
+  greater_is_better: true
+  fp16: false          # set true if NVIDIA GPU with float16 support
+  bf16: false          # set true on A100/H100
+  gradient_accumulation_steps: 2
+  max_grad_norm: 1.0
+  seed: 42
+  dataloader_num_workers: 2
+  report_to: "wandb"   # set "none" to disable WandB
+  logging_steps: 50
+  save_total_limit: 2
+  push_to_hub: false
+  hub_model_id: ""     # e.g. "your-username/hinglish-sentiment-mbert"
+
+# --- Data ---
+data:
+  train_file: "./data/processed/train.csv"
+  val_file: "./data/processed/val.csv"
+  test_file: "./data/processed/test.csv"
+  text_column: "text"
+  label_column: "label"
+  train_val_test_split: [0.8, 0.1, 0.1]
+  # Class weights for imbalanced data (computed automatically if null)
+  class_weights: null
+
+# --- Preprocessing ---
+preprocessing:
+  lowercase: false      # preserve case — helps with Hindi proper nouns
+  remove_urls: true
+  remove_mentions: true
+  remove_hashtag_symbol: true  # keep hashtag text, remove #
+  emoji_to_text: true
+  normalize_repeated_chars: true  # "haaaaan" → "haan"
+  max_repeated: 3
+  strip_devanagari: false  # set true for Roman-only models
+
+# --- Inference ---
+inference:
+  model_path: "./outputs/hinglish-sentiment/best_model"
+  batch_size: 64
+  device: "auto"        # "auto", "cpu", "cuda", "mps"
