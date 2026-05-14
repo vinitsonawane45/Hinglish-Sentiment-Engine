@@ -85,8 +85,13 @@ def build_compute_metrics():
     Returns a compute_metrics function for the Trainer.
     Reports: accuracy, macro F1, per-class F1.
     """
+    # print("EVALUATE OBJECT:", evaluate)
+    # print("TYPE:", type(evaluate))
+    # print("HAS LOAD:", hasattr(evaluate, "load"))
+    # print("DIR:", dir(evaluate)[:10])
+
     accuracy_metric = evaluate.load("accuracy")
-    f1_metric       = evaluate.load("f1")
+    f1_metric = evaluate.load("f1")
 
     def compute_metrics(eval_pred):
         logits, labels = eval_pred
@@ -222,7 +227,7 @@ def train(
         gradient_accumulation_steps=cfg.gradient_accumulation_steps,
         max_grad_norm=cfg.max_grad_norm,
         lr_scheduler_type=cfg.lr_scheduler_type,
-        evaluation_strategy="steps",
+        eval_strategy="steps",
         eval_steps=cfg.eval_steps,
         save_strategy="steps",
         save_steps=cfg.save_steps,
@@ -231,7 +236,7 @@ def train(
         greater_is_better=cfg.greater_is_better,
         logging_dir=Paths.LOGS,
         logging_steps=cfg.logging_steps,
-        report_to=cfg.report_to,
+        report_to="none",
         fp16=cfg.fp16,
         bf16=cfg.bf16,
         dataloader_num_workers=cfg.dataloader_num_workers,

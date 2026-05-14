@@ -52,12 +52,32 @@ def main():
 
     save_path = os.path.join(Paths.DATA_PROC, "dataset")
 
+    # dataset_dict = builder.build(
+    #     train_file=Paths.SEMEVAL_TRAIN,
+    #     test_file=Paths.SEMEVAL_TEST,
+    #     extra_files=extra if extra else None,
+    #     save_path=save_path,
+    # )
     dataset_dict = builder.build(
-        train_file=Paths.SEMEVAL_TRAIN,
-        test_file=Paths.SEMEVAL_TEST,
-        extra_files=extra if extra else None,
-        save_path=save_path,
-    )
+    train_file=Paths.SEMEVAL_TRAIN,
+    test_file=Paths.SEMEVAL_TEST,
+    extra_files=extra if extra else None,
+    save_path=save_path,
+)
+
+    # Save CSV versions for evaluation script
+    train_df = dataset_dict["train"].to_pandas()
+    val_df = dataset_dict["validation"].to_pandas()
+    test_df = dataset_dict["test"].to_pandas()
+
+    train_df.to_csv(os.path.join(Paths.DATA_PROC, "train.csv"), index=False)
+    val_df.to_csv(os.path.join(Paths.DATA_PROC, "val.csv"), index=False)
+    test_df.to_csv(os.path.join(Paths.DATA_PROC, "test.csv"), index=False)
+
+    print("CSV files saved:")
+    print(f"  - {os.path.join(Paths.DATA_PROC, 'train.csv')}")
+    print(f"  - {os.path.join(Paths.DATA_PROC, 'val.csv')}")
+    print(f"  - {os.path.join(Paths.DATA_PROC, 'test.csv')}")
 
     # Compute and save class weights
     weights = builder.get_class_weights(dataset_dict)
